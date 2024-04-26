@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NASA - Explore Our Solar System</title>
+	<style>
+		/* Global Styles */
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: Arial, sans-serif;
+			background-image: url('https://apod.nasa.gov/apod/image/1909/OrionNebula_Hubble_1080.jpg');
+			background-size: cover;
+			background-position: center;
+			height: 100vh;
+		}
+		
+		/* Header Styles */
+		header {
+			background-color: #333;
+			color: #fff;
+			padding: 1em;
+			text-align: center;
+		}
+		
+		.planet-button {
+			background-color: #444;
+			color: #fff;
+			border: none;
+			padding: 0.5em 1em;
+			font-size: 1.2em;
+			cursor: pointer;
+		}
+		
+		.planet-button:hover {
+			background-color: #555;
+		}
+		
+		/* Body Styles */
+		.planet-image {
+			width: 50%;
+			margin: 2em auto;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+		}
+		
+		.planet-description {
+			font-size: 1.2em;
+			color: #fff;
+			text-align: center;
+			margin-top: 1em;
+		}
+		
+		/* Footer Styles */
+		footer {
+			background-color: #333;
+			color: #fff;
+			padding: 1em;
+			text-align: center;
+			clear: both;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<button class="planet-button" id="mercury-button">Mercury</button>
+		<button class="planet-button" id="venus-button">Venus</button>
+		<button class="planet-button" id="earth-button">Earth</button>
+		<button class="planet-button" id="mars-button">Mars</button>
+		<button class="planet-button" id="jupiter-button">Jupiter</button>
+		<button class="planet-button" id="saturn-button">Saturn</button>
+		<button class="planet-button" id="uranus-button">Uranus</button>
+		<button class="planet-button" id="neptune-button">Neptune</button>
+	</header>
+	
+	<div id="planet-content">
+		<img src="" alt="" id="planet-image">
+		<label id="planet-description"></label>
+	</div>
+	
+	<footer>
+		<p>&copy; 2023 NASA</p>
+	</footer>
+	
+	<script>
+		const planetButtons = document.querySelectorAll('.planet-button');
+		const planetImage = document.getElementById('planet-image');
+		const planetDescription = document.getElementById('planet-description');
+		
+		planetButtons.forEach(button => {
+			button.addEventListener('click', () => {
+				const planetName = button.textContent;
+				fetch(`https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=2023-02-20&planet=${planetName.toLowerCase()}`)
+					.then(response => response.json())
+					.then(data => {
+						planetImage.src = data.url;
+						planetDescription.textContent = data.explanation;
+					})
+					.catch(error => console.error(error));
+			});
+		});
+	</script>
+</body>
+</html>
